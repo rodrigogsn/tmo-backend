@@ -16,3 +16,11 @@ Route.group(() => {
 Route.group(() => {
   Route.resource("bodies", "BodyController").apiOnly();
 }).middleware("auth");
+
+Route.group(() => {
+  Route.resource("jobs", "JobController").apiOnly();
+}).middleware("auth");
+
+Route.group(() => {
+  Route.resource("matches", "MatchController").apiOnly();
+}).middleware("auth");

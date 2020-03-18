@@ -2,6 +2,7 @@
 
 const Hirer = use("App/Models/Hirer");
 const User = use("App/Models/User");
+const Job = use("App/Models/Job");
 
 class HirerController {
   async index() {
@@ -12,7 +13,7 @@ class HirerController {
     return hirers;
   }
 
-  async store({ request, response, auth }) {
+  async store({ request, auth }) {
     const data = request.only([
       "gender_id",
       "name",
@@ -39,7 +40,11 @@ class HirerController {
   async show({ params }) {
     const hirer = await Hirer.findBy("hirer_id", params.id);
 
-    return hirer;
+    const jobs = await Job.query()
+      .where("owner_id", "=", params.id)
+      .fetch();
+
+    return { hirer, jobs };
   }
 
   async update({ params, request }) {
@@ -65,7 +70,7 @@ class HirerController {
     return hirer;
   }
 
-  async destroy({ params, request, response, auth }) {
+  async destroy({ params, response, auth }) {
     const hirer = await Hirer.findOrFail(params.id);
 
     if (hirer.hirer_id !== auth.user.id) {

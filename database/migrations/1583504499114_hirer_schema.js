@@ -1,6 +1,5 @@
 "use strict";
 
-/** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use("Schema");
 
 class HirerSchema extends Schema {
@@ -16,7 +15,7 @@ class HirerSchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.integer("gender_id").notNullable(); //needs to relate to gender Model
+      table.integer("gender_id").notNullable(); //needs to relate to a Gender Model
       table.string("name", 100).notNullable();
       table
         .string("document", 100)

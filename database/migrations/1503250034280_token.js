@@ -9,7 +9,9 @@ class TokensSchema extends Schema {
       table.increments();
       table
         .integer("user_id")
+        .unique()
         .unsigned()
+        .notNullable()
         .references("id")
         .inTable("users")
         .onUpdate("CASCADE")
