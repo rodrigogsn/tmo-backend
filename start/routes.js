@@ -24,3 +24,7 @@ Route.group(() => {
 Route.group(() => {
   Route.resource("matches", "MatchController").apiOnly();
 }).middleware("auth");
+
+Route.group(() => {
+  Route.resource("images", "ImageController").apiOnly();
+}).middleware("auth");

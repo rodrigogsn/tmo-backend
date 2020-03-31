@@ -23,7 +23,9 @@ class HirerController {
       "zipcode",
       "phone",
       "bio_title",
-      "bio"
+      "bio",
+      "avatar",
+      "cover"
     ]);
 
     const hirer = await Hirer.create({ hirer_id: auth.user.id, ...data });
@@ -48,7 +50,7 @@ class HirerController {
   }
 
   async update({ params, request }) {
-    const hirer = await Hirer.findOrFail(params.id);
+    const hirer = await Hirer.findBy("hirer_id", params.id);
 
     const data = request.only([
       "profile",
@@ -60,7 +62,9 @@ class HirerController {
       "zipcode",
       "phone",
       "bio_title",
-      "bio"
+      "bio",
+      "avatar",
+      "cover"
     ]);
 
     hirer.merge(data);

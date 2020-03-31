@@ -27,6 +27,8 @@ class HirerSchema extends Schema {
       table.string("phone", 100);
       table.string("bio_title", 100);
       table.text("bio");
+      table.string("avatar", 254);
+      table.string("cover", 254);
       table.timestamps();
     });
   }

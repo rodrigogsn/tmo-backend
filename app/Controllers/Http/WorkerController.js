@@ -25,7 +25,9 @@ class WorkerController {
       "zipcode",
       "phone",
       "bio_title",
-      "bio"
+      "bio",
+      "avatar",
+      "cover"
     ]);
 
     const worker = await Worker.create({ worker_id: auth.user.id, ...data });
@@ -41,13 +43,14 @@ class WorkerController {
 
   async show({ params }) {
     const worker = await Worker.findBy("worker_id", params.id);
+
     const body = await Body.findBy("worker_id", params.id);
 
     return { worker, body };
   }
 
   async update({ params, request }) {
-    const worker = await Worker.findOrFail(params.id);
+    const worker = await Worker.findBy("worker_id", params.id);
 
     const data = request.only([
       "gender_id",
@@ -58,7 +61,9 @@ class WorkerController {
       "zipcode",
       "phone",
       "bio_title",
-      "bio"
+      "bio",
+      "avatar",
+      "cover"
     ]);
 
     worker.merge(data);
