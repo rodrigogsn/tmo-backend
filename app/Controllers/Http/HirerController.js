@@ -2,12 +2,16 @@
 
 const Hirer = use("App/Models/Hirer");
 const User = use("App/Models/User");
-const Job = use("App/Models/Job");
 
 class HirerController {
   async index() {
     const hirers = await Hirer.query()
-      .with("user")
+      .with("user", builder => {
+        builder.select(["id", "user_group", "email"]);
+      })
+      .with("gender", builder => {
+        builder.select(["id", "name"]);
+      })
       .fetch();
 
     return hirers;
@@ -40,13 +44,20 @@ class HirerController {
   }
 
   async show({ params }) {
-    const hirer = await Hirer.findBy("hirer_id", params.id);
-
-    const jobs = await Job.query()
-      .where("owner_id", "=", params.id)
+    const hirer = await Hirer.query()
+      .with("user", builder => {
+        builder.select(["id", "user_group", "email"]);
+      })
+      .with("gender", builder => {
+        builder.select(["id", "name"]);
+      })
+      .with("jobs", builder => {
+        builder.where("owner_id", "=", params.id);
+      })
+      .where("hirer_id", "=", params.id)
       .fetch();
 
-    return { hirer, jobs };
+    return hirer.toJSON()[0];
   }
 
   async update({ params, request }) {

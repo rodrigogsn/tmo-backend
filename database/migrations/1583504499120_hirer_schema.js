@@ -15,7 +15,14 @@ class HirerSchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.integer("gender_id").notNullable(); //needs to relate to a Gender Model
+      table
+        .integer("gender_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("genders")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.string("name", 100).notNullable();
       table
         .string("document", 100)

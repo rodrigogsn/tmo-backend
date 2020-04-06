@@ -8,7 +8,11 @@ class Worker extends Model {
   }
 
   body() {
-    return this.belongsTo("App/Models/Body", "worker_id", "worker_id");
+    return this.hasOne("App/Models/Body", "worker_id", "worker_id");
+  }
+
+  gender() {
+    return this.hasOne("App/Models/Gender", "gender_id", "id");
   }
 
   match() {

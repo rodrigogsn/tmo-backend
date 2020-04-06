@@ -20,7 +20,9 @@ class AuthController {
       .where("email", email)
       .fetch();
 
-    return { ...token, user };
+    const data = user.toJSON()[0];
+
+    return { ...token, data };
   }
 }
 

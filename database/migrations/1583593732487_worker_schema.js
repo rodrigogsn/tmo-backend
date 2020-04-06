@@ -16,7 +16,14 @@ class WorkerSchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.integer("gender_id").notNullable(); //needs to relate to gender Model
+      table
+        .integer("gender_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("genders")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.string("name", 100).notNullable();
       table.string("document", 100).unique();
       table.string("birthdate", 20).notNullable();

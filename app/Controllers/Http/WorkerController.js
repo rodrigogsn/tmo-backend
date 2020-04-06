@@ -2,13 +2,29 @@
 
 const Worker = use("App/Models/Worker");
 const User = use("App/Models/User");
-const Body = use("App/Models/Body");
+// const Body = use("App/Models/Body");
 
 class WorkerController {
   async index() {
     const workers = await Worker.query()
-      .with("user")
-      .with("body")
+      .with("user", builder => {
+        builder.select(["id", "user_group", "email"]);
+      })
+      .with("gender", builder => {
+        builder.select(["id", "name"]);
+      })
+      .with("body", builder => {
+        builder.select([
+          "worker_id",
+          "height",
+          "bust",
+          "waist",
+          "hips",
+          "shoe",
+          "hair",
+          "eyes"
+        ]);
+      })
       .fetch();
 
     return workers;
@@ -42,11 +58,29 @@ class WorkerController {
   }
 
   async show({ params }) {
-    const worker = await Worker.findBy("worker_id", params.id);
+    const worker = await Worker.query()
+      .with("user", builder => {
+        builder.select(["id", "user_group", "email"]);
+      })
+      .with("gender", builder => {
+        builder.select(["id", "name"]);
+      })
+      .with("body", builder => {
+        builder.select([
+          "worker_id",
+          "height",
+          "bust",
+          "waist",
+          "hips",
+          "shoe",
+          "hair",
+          "eyes"
+        ]);
+      })
+      .where("worker_id", "=", params.id)
+      .fetch();
 
-    const body = await Body.findBy("worker_id", params.id);
-
-    return { worker, body };
+    return worker.toJSON()[0];
   }
 
   async update({ params, request }) {

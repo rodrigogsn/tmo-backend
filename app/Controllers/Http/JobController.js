@@ -9,6 +9,9 @@ class JobController {
       .with("user", builder => {
         builder.select(["id", "email", "user_group"]);
       })
+      .with("category", builder => {
+        builder.select(["id", "name"]);
+      })
       .with("owner", builder => {
         builder.select([
           "id",
@@ -47,7 +50,26 @@ class JobController {
   }
 
   async show({ params }) {
-    const job = await Job.findOrFail("id", params.id);
+    const job = await Job.query()
+      .with("user", builder => {
+        builder.select(["id", "email", "user_group"]);
+      })
+      .with("category", builder => {
+        builder.select(["id", "name"]);
+      })
+      .with("owner", builder => {
+        builder.select([
+          "id",
+          "hirer_id",
+          "name",
+          "location",
+          "zipcode",
+          "birthdate"
+        ]);
+      })
+      .with("matches")
+      .where("id", "=", params.id)
+      .fetch();
 
     return job;
   }

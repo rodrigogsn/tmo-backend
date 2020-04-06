@@ -14,7 +14,14 @@ class JobSchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.integer("job_category").notNullable(); //needs to relate to a Job Category Model
+      table
+        .integer("job_category")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("job_categories")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.string("status", 1).notNullable(); // Open (O), Taken (T), Done (D), Cancelled (C)
       table.string("name", 100).notNullable();
       table.text("description").notNullable();

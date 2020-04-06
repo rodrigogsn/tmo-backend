@@ -15,7 +15,14 @@ class AlbumsSchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.string("name", 100).notNullable();
+      table
+        .integer("job_category")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("job_categories")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.string("cover_url", 254).notNullable();
       table.timestamps();
     });
