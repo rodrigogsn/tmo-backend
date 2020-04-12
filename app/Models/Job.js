@@ -8,7 +8,7 @@ class Job extends Model {
   }
 
   owner() {
-    return this.belongsTo("App/Models/Hirer", "owner_id", "id");
+    return this.belongsTo("App/Models/Hirer", "owner_id", "hirer_id");
   }
 
   category() {

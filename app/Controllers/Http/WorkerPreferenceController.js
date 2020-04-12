@@ -10,7 +10,7 @@ class MatchController {
   }
 
   // The store() is fired everytime the user toggles ON/OFF the preference for a Job Category
-  async store({ request, response, auth }) {
+  async store({ request, auth }) {
     const worker_id = auth.user.id;
 
     const data = request.only(["active", "job_category"]);
@@ -29,34 +29,38 @@ class MatchController {
         .where("job_category", "=", data.job_category)
         .update({ active: (bool ^= true) });
 
-      return response.send(
-        `This preference already exists, and now its active status is: ${bool}.`
-      );
+      preference = await WorkerPreference.query()
+        .where("worker_id", "=", auth.user.id)
+        .fetch();
+
+      return preference;
     }
 
-    preference = await WorkerPreference.create({
+    await WorkerPreference.create({
       worker_id: auth.user.id,
-      ...data
+      ...data,
     });
+
+    preference = await WorkerPreference.query()
+      .where("worker_id", "=", auth.user.id)
+      .fetch();
 
     return preference;
   }
 
-  async update({ params, request }) {
-    const preference = await WorkerPreference.findOrFail(params.id);
+  async update({ params, request, response, auth }) {
+    const data = request.only(["album_id", "max_budget", "min_budget"]);
 
-    const data = request.only([
-      "job_category",
-      "album_id",
-      "max_budget",
-      "min_budget"
-    ]);
+    await WorkerPreference.query()
+      .where("worker_id", "=", auth.user.id)
+      .where("job_category", "=", params.id)
+      .update(data);
 
-    preference.merge(data);
+    const preferences = await WorkerPreference.query()
+      .where("worker_id", "=", auth.user.id)
+      .fetch();
 
-    await preference.save();
-
-    return preference;
+    return preferences;
   }
 }
 
