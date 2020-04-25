@@ -4,9 +4,7 @@ const Body = use("App/Models/Body");
 
 class BodyController {
   async index() {
-    const bodies = await Body.query()
-      .with("user")
-      .fetch();
+    const bodies = await Body.query().with("user").fetch();
 
     return bodies;
   }
@@ -19,7 +17,7 @@ class BodyController {
       "hips",
       "shoe",
       "hair",
-      "eyes"
+      "eyes",
     ]);
 
     const body = await Body.create({ worker_id: auth.user.id, ...data });
@@ -34,7 +32,7 @@ class BodyController {
   }
 
   async update({ params, request, response }) {
-    const body = await Body.findOrFail(params.id);
+    const body = await Body.findBy("worker_id", params.id);
 
     const data = request.only([
       "height",
@@ -43,7 +41,7 @@ class BodyController {
       "hips",
       "shoe",
       "hair",
-      "eyes"
+      "eyes",
     ]);
 
     body.merge(data);

@@ -6,20 +6,21 @@ const User = use("App/Models/User");
 class JobController {
   async index() {
     const jobs = await Job.query()
-      .with("user", builder => {
+      .with("user", (builder) => {
         builder.select(["id", "email", "user_group"]);
       })
-      .with("category", builder => {
+      .with("category", (builder) => {
         builder.select(["id", "name"]);
       })
-      .with("owner", builder => {
+      .with("owner", (builder) => {
         builder.select([
           "id",
           "hirer_id",
           "name",
           "location",
           "zipcode",
-          "birthdate"
+          "birthdate",
+          "avatar",
         ]);
       })
       .with("matches")
@@ -39,7 +40,7 @@ class JobController {
       "zipcode",
       "schedule",
       "workers_applied",
-      "worker_selected"
+      "worker_selected",
     ]);
 
     const jobs = await Job.create({ owner_id: auth.user.id, ...data });
@@ -51,20 +52,21 @@ class JobController {
 
   async show({ params }) {
     const job = await Job.query()
-      .with("user", builder => {
+      .with("user", (builder) => {
         builder.select(["id", "email", "user_group"]);
       })
-      .with("category", builder => {
+      .with("category", (builder) => {
         builder.select(["id", "name"]);
       })
-      .with("owner", builder => {
+      .with("owner", (builder) => {
         builder.select([
           "id",
           "hirer_id",
           "name",
           "location",
           "zipcode",
-          "birthdate"
+          "birthdate",
+          "avatar",
         ]);
       })
       .with("matches")
@@ -87,7 +89,7 @@ class JobController {
       "zipcode",
       "schedule",
       "workers_applied",
-      "worker_selected"
+      "worker_selected",
     ]);
 
     job.merge(data);

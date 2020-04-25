@@ -6,10 +6,10 @@ const User = use("App/Models/User");
 class HirerController {
   async index() {
     const hirers = await Hirer.query()
-      .with("user", builder => {
+      .with("user", (builder) => {
         builder.select(["id", "user_group", "email"]);
       })
-      .with("gender", builder => {
+      .with("gender", (builder) => {
         builder.select(["id", "name"]);
       })
       .fetch();
@@ -26,10 +26,9 @@ class HirerController {
       "location",
       "zipcode",
       "phone",
-      "bio_title",
       "bio",
       "avatar",
-      "cover"
+      "cover",
     ]);
 
     const hirer = await Hirer.create({ hirer_id: auth.user.id, ...data });
@@ -45,13 +44,13 @@ class HirerController {
 
   async show({ params }) {
     const hirer = await Hirer.query()
-      .with("user", builder => {
+      .with("user", (builder) => {
         builder.select(["id", "user_group", "email"]);
       })
-      .with("gender", builder => {
+      .with("gender", (builder) => {
         builder.select(["id", "name"]);
       })
-      .with("jobs", builder => {
+      .with("jobs", (builder) => {
         builder.where("owner_id", "=", params.id);
       })
       .where("hirer_id", "=", params.id)
@@ -72,10 +71,9 @@ class HirerController {
       "location",
       "zipcode",
       "phone",
-      "bio_title",
       "bio",
       "avatar",
-      "cover"
+      "cover",
     ]);
 
     hirer.merge(data);

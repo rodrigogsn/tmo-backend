@@ -5,7 +5,7 @@ const Schema = use("Schema");
 
 class WorkerSchema extends Schema {
   up() {
-    this.create("workers", table => {
+    this.create("workers", (table) => {
       table.increments();
       table
         .integer("worker_id")
@@ -30,7 +30,6 @@ class WorkerSchema extends Schema {
       table.string("location", 254).notNullable();
       table.string("zipcode", 80).notNullable();
       table.string("phone", 100);
-      table.string("bio_title", 100);
       table.text("bio").notNullable();
       table.string("avatar", 254);
       table.string("cover", 254);

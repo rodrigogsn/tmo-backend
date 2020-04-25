@@ -7,13 +7,13 @@ const User = use("App/Models/User");
 class WorkerController {
   async index() {
     const workers = await Worker.query()
-      .with("user", builder => {
+      .with("user", (builder) => {
         builder.select(["id", "user_group", "email"]);
       })
-      .with("gender", builder => {
+      .with("gender", (builder) => {
         builder.select(["id", "name"]);
       })
-      .with("body", builder => {
+      .with("body", (builder) => {
         builder.select([
           "worker_id",
           "height",
@@ -22,7 +22,7 @@ class WorkerController {
           "hips",
           "shoe",
           "hair",
-          "eyes"
+          "eyes",
         ]);
       })
       .fetch();
@@ -40,10 +40,9 @@ class WorkerController {
       "location",
       "zipcode",
       "phone",
-      "bio_title",
       "bio",
       "avatar",
-      "cover"
+      "cover",
     ]);
 
     const worker = await Worker.create({ worker_id: auth.user.id, ...data });
@@ -59,13 +58,13 @@ class WorkerController {
 
   async show({ params }) {
     const worker = await Worker.query()
-      .with("user", builder => {
+      .with("user", (builder) => {
         builder.select(["id", "user_group", "email"]);
       })
-      .with("gender", builder => {
+      .with("gender", (builder) => {
         builder.select(["id", "name"]);
       })
-      .with("body", builder => {
+      .with("body", (builder) => {
         builder.select([
           "worker_id",
           "height",
@@ -74,7 +73,7 @@ class WorkerController {
           "hips",
           "shoe",
           "hair",
-          "eyes"
+          "eyes",
         ]);
       })
       .where("worker_id", "=", params.id)
@@ -94,10 +93,9 @@ class WorkerController {
       "location",
       "zipcode",
       "phone",
-      "bio_title",
       "bio",
       "avatar",
-      "cover"
+      "cover",
     ]);
 
     worker.merge(data);

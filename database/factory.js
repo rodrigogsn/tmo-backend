@@ -25,7 +25,6 @@ Factory.blueprint("App/Models/Hirer", async (faker) => {
     location: faker.address(),
     zipcode: faker.zip(),
     phone: faker.phone({ formatted: false }),
-    bio_title: faker.sentence(),
     bio: faker.paragraph(),
   };
 });
@@ -39,7 +38,6 @@ Factory.blueprint("App/Models/Worker", async (faker) => {
     location: faker.address(),
     zipcode: faker.zip(),
     phone: faker.phone({ formatted: false }),
-    bio_title: faker.sentence(),
     bio: faker.paragraph({ sentences: 3 }),
   };
 });
