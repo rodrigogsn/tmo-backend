@@ -5,7 +5,7 @@ const Schema = use("Schema");
 
 class BodySchema extends Schema {
   up() {
-    this.create("bodies", table => {
+    this.create("bodies", (table) => {
       table.increments();
       table
         .integer("worker_id")
@@ -16,11 +16,11 @@ class BodySchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
+      table.integer("body_type");
       table.integer("height");
       table.integer("bust");
       table.integer("waist");
       table.integer("hips");
-      table.integer("shoe");
       table.string("hair", 100);
       table.string("eyes", 100);
       table.timestamps();

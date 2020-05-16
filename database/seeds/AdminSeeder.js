@@ -20,19 +20,6 @@ class UserSeeder {
       user_group: "admin",
     });
 
-    ////////////// Admin makes genders
-    const gender = await Factory.model("App/Models/Gender").makeMany(7, [
-      "Female",
-      "Male",
-      "Trans",
-      "Agender",
-      "Genderqueer",
-      "Pangender",
-      "Other",
-    ]);
-
-    await admin.genders().saveMany(gender);
-
     ////////////// Create job categories
     const job_category = await Factory.model(
       "App/Models/JobCategory"

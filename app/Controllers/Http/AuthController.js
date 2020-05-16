@@ -16,13 +16,21 @@ class AuthController {
 
     const token = await auth.attempt(email, password);
 
-    const user = await User.query()
-      .where("email", email)
-      .fetch();
+    const user = await User.query().where("email", email).fetch();
 
     const data = user.toJSON()[0];
 
     return { ...token, data };
+  }
+
+  async confirmProfile({ params }) {
+    const user = await User.findOrFail(params.id);
+
+    user.merge({ profile: 1 });
+
+    await user.save();
+
+    return user;
   }
 }
 

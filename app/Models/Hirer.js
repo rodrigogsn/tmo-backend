@@ -10,10 +10,6 @@ class Hirer extends Model {
   jobs() {
     return this.hasMany("App/Models/Job", "hirer_id", "owner_id");
   }
-
-  gender() {
-    return this.hasOne("App/Models/Gender", "gender_id", "id");
-  }
 }
 
 module.exports = Hirer;

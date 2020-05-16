@@ -9,9 +9,6 @@ class HirerController {
       .with("user", (builder) => {
         builder.select(["id", "user_group", "email"]);
       })
-      .with("gender", (builder) => {
-        builder.select(["id", "name"]);
-      })
       .fetch();
 
     return hirers;
@@ -19,25 +16,28 @@ class HirerController {
 
   async store({ request, auth }) {
     const data = request.only([
-      "gender_id",
+      "gender",
       "name",
       "document",
       "birthdate",
-      "location",
-      "zipcode",
       "phone",
+      "city",
+      "nationality",
+      "zipcode",
+      "body_type",
       "bio",
+      "hair",
+      "eyes",
+      "smoker",
       "avatar",
       "cover",
+      "cc_number",
+      "cc_exp",
     ]);
 
     const hirer = await Hirer.create({ hirer_id: auth.user.id, ...data });
 
     const user = await User.findOrFail(auth.user.id);
-
-    user.merge({ profile: 1 });
-
-    await user.save();
 
     return { hirer, user };
   }
@@ -46,9 +46,6 @@ class HirerController {
     const hirer = await Hirer.query()
       .with("user", (builder) => {
         builder.select(["id", "user_group", "email"]);
-      })
-      .with("gender", (builder) => {
-        builder.select(["id", "name"]);
       })
       .with("jobs", (builder) => {
         builder.where("owner_id", "=", params.id);
@@ -63,17 +60,23 @@ class HirerController {
     const hirer = await Hirer.findBy("hirer_id", params.id);
 
     const data = request.only([
-      "profile",
-      "gender_id",
+      "gender",
       "name",
       "document",
       "birthdate",
-      "location",
-      "zipcode",
       "phone",
+      "city",
+      "nationality",
+      "zipcode",
+      "body_type",
       "bio",
+      "hair",
+      "eyes",
+      "smoker",
       "avatar",
       "cover",
+      "cc_number",
+      "cc_exp",
     ]);
 
     hirer.merge(data);

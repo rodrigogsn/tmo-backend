@@ -16,11 +16,11 @@ class WorkerController {
       .with("body", (builder) => {
         builder.select([
           "worker_id",
+          "body_type",
           "height",
           "bust",
           "waist",
           "hips",
-          "shoe",
           "hair",
           "eyes",
         ]);
@@ -30,28 +30,28 @@ class WorkerController {
     return workers;
   }
 
-  async store({ request, response, auth }) {
+  async store({ request, auth }) {
     const data = request.only([
-      "profile",
-      "gender_id",
+      "gender",
       "name",
       "document",
       "birthdate",
-      "location",
-      "zipcode",
       "phone",
+      "city",
+      "nationality",
+      "zipcode",
+      "smoker",
       "bio",
+      "smoker",
       "avatar",
       "cover",
+      "account_name",
+      "iban",
     ]);
 
     const worker = await Worker.create({ worker_id: auth.user.id, ...data });
 
     const user = await User.findOrFail(auth.user.id);
-
-    user.merge({ profile: 1 });
-
-    await user.save();
 
     return { worker, user };
   }
@@ -67,11 +67,11 @@ class WorkerController {
       .with("body", (builder) => {
         builder.select([
           "worker_id",
+          "body_type",
           "height",
           "bust",
           "waist",
           "hips",
-          "shoe",
           "hair",
           "eyes",
         ]);
@@ -86,16 +86,21 @@ class WorkerController {
     const worker = await Worker.findBy("worker_id", params.id);
 
     const data = request.only([
-      "gender_id",
+      "gender",
       "name",
       "document",
       "birthdate",
-      "location",
-      "zipcode",
       "phone",
+      "city",
+      "nationality",
+      "zipcode",
+      "smoker",
       "bio",
+      "smoker",
       "avatar",
       "cover",
+      "account_name",
+      "iban",
     ]);
 
     worker.merge(data);

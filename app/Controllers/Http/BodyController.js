@@ -11,11 +11,11 @@ class BodyController {
 
   async store({ request, response, auth }) {
     const data = request.only([
+      "body_type",
       "height",
       "bust",
       "waist",
       "hips",
-      "shoe",
       "hair",
       "eyes",
     ]);
@@ -35,11 +35,11 @@ class BodyController {
     const body = await Body.findBy("worker_id", params.id);
 
     const data = request.only([
+      "body_type",
       "height",
       "bust",
       "waist",
       "hips",
-      "shoe",
       "hair",
       "eyes",
     ]);

@@ -30,7 +30,7 @@ class MatchController {
 
     const match = await Match.create({
       worker_id: auth.user.id,
-      ...data
+      ...data,
     });
 
     return match;

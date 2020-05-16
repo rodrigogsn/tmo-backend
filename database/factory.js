@@ -10,45 +10,50 @@ Factory.blueprint("App/Models/User", async (faker, i, data) => {
   };
 });
 
-Factory.blueprint("App/Models/Gender", async (faker, i, data) => {
-  return {
-    name: data[i],
-  };
-});
-
 Factory.blueprint("App/Models/Hirer", async (faker) => {
   return {
-    gender_id: 2,
+    gender: "Male",
     name: faker.name({ gender: "male" }),
     document: faker.cpf(),
     birthdate: faker.birthday({ string: true }),
-    location: faker.address(),
-    zipcode: faker.zip(),
     phone: faker.phone({ formatted: false }),
+    nationality: "ES",
+    city: "Madrid",
+    zipcode: faker.zip(),
     bio: faker.paragraph(),
+    body_type: "Average",
+    hair: "Black",
+    eyes: "Blue",
+    smoker: false,
+    cc_number: "4111111111111111",
+    cc_exp: "12/2030",
   };
 });
 
 Factory.blueprint("App/Models/Worker", async (faker) => {
   return {
-    gender_id: 1,
+    gender: "Female",
     name: faker.name({ gender: "female" }),
     document: faker.cpf(),
     birthdate: faker.birthday({ string: true }),
-    location: faker.address(),
-    zipcode: faker.zip(),
     phone: faker.phone({ formatted: false }),
+    city: "Barcelona",
+    nationality: "ES",
+    zipcode: faker.zip(),
     bio: faker.paragraph({ sentences: 3 }),
+    smoker: true,
+    account_name: "Main Account",
+    iban: "000 000 000 000 5",
   };
 });
 
 Factory.blueprint("App/Models/Body", async (faker) => {
   return {
+    body_type: "Atletic",
     height: faker.integer({ min: 150, max: 220 }),
     bust: faker.integer({ min: 40, max: 80 }),
     waist: faker.integer({ min: 40, max: 80 }),
     hips: faker.integer({ min: 40, max: 80 }),
-    shoe: faker.integer({ min: 30, max: 45 }),
     hair: "Pink",
     eyes: "Hazel",
   };

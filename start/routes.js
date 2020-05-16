@@ -5,6 +5,9 @@ const Route = use("Route");
 Route.post("/register", "AuthController.register");
 Route.post("/authenticate", "AuthController.authenticate");
 
+// Allow users to enter the app if they've already filled in a profile (turn profile=true)
+Route.put("/register/:id", "AuthController.confirmProfile");
+
 Route.group(() => {
   Route.resource("hirers", "HirerController").apiOnly();
 }).middleware("auth");
