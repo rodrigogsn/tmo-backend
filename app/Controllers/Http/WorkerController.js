@@ -2,28 +2,12 @@
 
 const Worker = use("App/Models/Worker");
 const User = use("App/Models/User");
-// const Body = use("App/Models/Body");
 
 class WorkerController {
   async index() {
     const workers = await Worker.query()
       .with("user", (builder) => {
         builder.select(["id", "user_group", "email"]);
-      })
-      .with("gender", (builder) => {
-        builder.select(["id", "name"]);
-      })
-      .with("body", (builder) => {
-        builder.select([
-          "worker_id",
-          "body_type",
-          "height",
-          "bust",
-          "waist",
-          "hips",
-          "hair",
-          "eyes",
-        ]);
       })
       .fetch();
 
@@ -39,14 +23,8 @@ class WorkerController {
       "phone",
       "city",
       "nationality",
-      "zipcode",
-      "smoker",
-      "bio",
-      "smoker",
-      "avatar",
-      "cover",
       "account_name",
-      "iban",
+      "account_number",
     ]);
 
     const worker = await Worker.create({ worker_id: auth.user.id, ...data });
@@ -60,21 +38,6 @@ class WorkerController {
     const worker = await Worker.query()
       .with("user", (builder) => {
         builder.select(["id", "user_group", "email"]);
-      })
-      .with("gender", (builder) => {
-        builder.select(["id", "name"]);
-      })
-      .with("body", (builder) => {
-        builder.select([
-          "worker_id",
-          "body_type",
-          "height",
-          "bust",
-          "waist",
-          "hips",
-          "hair",
-          "eyes",
-        ]);
       })
       .where("worker_id", "=", params.id)
       .fetch();
@@ -91,16 +54,29 @@ class WorkerController {
       "document",
       "birthdate",
       "phone",
+      "address",
+      "additional",
+      "number",
+      "district",
+      "state",
       "city",
       "nationality",
       "zipcode",
+      "body_type",
+      "hair",
+      "eyes",
+      "height",
+      "bust",
+      "waist",
+      "hips",
       "smoker",
       "bio",
-      "smoker",
+      "languages",
+      "hobbies",
       "avatar",
       "cover",
       "account_name",
-      "iban",
+      "account_number",
     ]);
 
     worker.merge(data);

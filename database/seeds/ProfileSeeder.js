@@ -20,12 +20,10 @@ class ProfileSeeder {
       user_group: "hirers",
     });
     const hirer_profile = await Factory.model("App/Models/Hirer").make();
-
     await hirer.hirer().save(hirer_profile);
 
     ////////////// Create jobs
     const job = await Factory.model("App/Models/Job").makeMany(20);
-
     await hirer_profile.jobs().saveMany(job);
 
     ////////////// Create user, profile and body for Worker
@@ -33,10 +31,9 @@ class ProfileSeeder {
       user_group: "workers",
     });
     const worker_profile = await Factory.model("App/Models/Worker").make();
-    const worker_body = await Factory.model("App/Models/Body").make();
-
+    // const worker_body = await Factory.model("App/Models/Body").make();
     await worker.worker().save(worker_profile);
-    await worker_profile.body().save(worker_body);
+    // await worker_profile.body().save(worker_body);
   }
 }
 

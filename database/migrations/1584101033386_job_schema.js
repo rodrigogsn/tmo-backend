@@ -4,7 +4,7 @@ const Schema = use("Schema");
 
 class JobSchema extends Schema {
   up() {
-    this.create("jobs", table => {
+    this.create("jobs", (table) => {
       table.increments();
       table
         .integer("owner_id")
@@ -22,13 +22,26 @@ class JobSchema extends Schema {
         .inTable("job_categories")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.string("status", 1).notNullable(); // Open (O), Taken (T), Done (D), Cancelled (C)
-      table.string("name", 100).notNullable();
-      table.text("description").notNullable();
-      table.integer("value").notNullable();
-      table.string("location", 254).notNullable();
-      table.string("zipcode", 80).notNullable();
-      table.integer("schedule", 80).notNullable(); //this is a timestamp
+      table.integer("status").notNullable().unsigned().defaultTo(1); // Open (1), On Going (2), Done (3), Cancelled (4), Reported (5)
+      table.string("description").notNullable();
+      table.string("start_date").notNullable();
+      table.string("start_time").notNullable();
+      table.string("expire_date").notNullable();
+      table.string("expire_time").notNullable();
+      table.string("location").notNullable();
+      table.integer("worker_number").notNullable().defaultTo(1);
+      table.string("worker_gender").notNullable();
+      table.integer("min_distance").notNullable().defaultTo(1);
+      table.integer("max_distance").notNullable().defaultTo(200);
+      table.integer("min_age").notNullable().defaultTo(18);
+      table.integer("max_age").notNullable().defaultTo(99);
+      table.integer("min_rate").notNullable().defaultTo(1);
+      table.integer("max_rate").notNullable().defaultTo(5);
+      table.integer("price").notNullable();
+      table.integer("price_type").notNullable().defaultTo(1); // Per job (1), Per hour (2)
+      table.string("hours");
+      table.boolean("transport_help").notNullable().defaultTo(0);
+      table.integer("transport_value");
       table.timestamps();
     });
   }

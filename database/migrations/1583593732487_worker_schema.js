@@ -16,20 +16,34 @@ class WorkerSchema extends Schema {
         .inTable("users")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.string("gender", 100).notNullable();
-      table.string("name", 255).notNullable();
-      table.string("document", 100).unique().notNullable();
+      table.string("gender").notNullable();
+      table.string("name").notNullable();
+      table.string("document").unique().notNullable();
       table.string("birthdate", 20).notNullable();
-      table.string("phone", 100).notNullable();
-      table.string("city", 255).notNullable();
-      table.string("nationality", 255).notNullable();
-      table.string("zipcode", 100);
+      table.string("phone").notNullable();
+      table.string("address");
+      table.string("additional");
+      table.string("number");
+      table.string("district");
+      table.string("city").notNullable();
+      table.string("state");
+      table.string("nationality").notNullable();
+      table.string("zipcode");
+      table.string("body_type");
+      table.string("hair");
+      table.string("eyes");
+      table.integer("height");
+      table.integer("bust");
+      table.integer("waist");
+      table.integer("hips");
       table.boolean("smoker").defaultTo(false);
-      table.text("bio");
       table.string("avatar", 255);
       table.string("cover", 255);
+      table.string("languages");
+      table.string("hobbies");
+      table.text("bio");
       table.string("account_name", 100).notNullable();
-      table.string("iban", 100).notNullable();
+      table.string("account_number", 100).notNullable();
       table.timestamps();
     });
   }

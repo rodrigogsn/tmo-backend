@@ -4,7 +4,13 @@ const User = use("App/Models/User");
 
 class AuthController {
   async register({ request }) {
-    const data = request.only(["user_group", "email", "password", "profile"]);
+    const data = request.only([
+      "user_group",
+      "email",
+      "password",
+      "profile",
+      "profile2",
+    ]);
 
     const user = await User.create(data);
 
@@ -26,7 +32,11 @@ class AuthController {
   async confirmProfile({ params }) {
     const user = await User.findOrFail(params.id);
 
-    user.merge({ profile: 1 });
+    if (params.profile == 1) {
+      user.merge({ profile: 1 });
+    } else {
+      user.merge({ profile2: 1 });
+    }
 
     await user.save();
 
