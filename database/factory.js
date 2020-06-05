@@ -77,6 +77,7 @@ Factory.blueprint("App/Models/JobCategory", async (faker, i, data) => {
 });
 
 Factory.blueprint("App/Models/Job", async (faker, i, data) => {
+  console.log(data[0].owner_id);
   return {
     owner_id: data[0].owner_id,
     job_category: faker.integer({ min: 1, max: 8 }),

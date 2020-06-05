@@ -23,8 +23,8 @@ class ProfileSeeder {
     await hirer.hirer().save(hirer_profile);
 
     ////////////// Create jobs
-    const id = hirer_profile.toJSON().hirer_id;
-    await Factory.model("App/Models/Job").createMany(20, [{ owner_id: id }]);
+    const owner_id = hirer_profile.toJSON().hirer_id;
+    await Factory.model("App/Models/Job").createMany(20, [{ owner_id }]);
 
     ////////////// Create user, profile and body for Worker
     const worker = await Factory.model("App/Models/User").create({
