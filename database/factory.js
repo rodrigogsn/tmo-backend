@@ -77,10 +77,14 @@ Factory.blueprint("App/Models/JobCategory", async (faker, i, data) => {
 });
 
 Factory.blueprint("App/Models/Job", async (faker, i, data) => {
-  console.log(data[0].owner_id);
+  const job_category =
+    data[0].job_category[
+      Math.floor(Math.random() * data[0].job_category.length)
+    ];
+
   return {
     owner_id: data[0].owner_id,
-    job_category: faker.integer({ min: 1, max: 8 }),
+    job_category,
     status: 1,
     description: faker.paragraph({ sentences: 4 }),
     start_date: "12/20/2020",
