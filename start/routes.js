@@ -59,5 +59,21 @@ Route.group(() => {
 }).middleware("auth");
 
 Route.group(() => {
+  Route.resource("albums", "AlbumController").apiOnly();
+}).middleware("auth");
+
+Route.group(() => {
+  Route.resource("album_images", "AlbumImageController").apiOnly();
+}).middleware("auth");
+
+Route.get("album_images", "AlbumImageController.index");
+Route.get("album_images/:id", "AlbumImageController.show");
+Route.post("album_images", "AlbumImageController.store");
+Route.delete(
+  "album_images/:album_id/:image_id",
+  "AlbumImageController.destroy"
+).middleware("auth");
+
+Route.group(() => {
   Route.resource("worker_preferences", "WorkerPreferenceController").apiOnly();
 }).middleware("auth");

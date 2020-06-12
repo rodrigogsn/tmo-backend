@@ -1,93 +1,100 @@
-'use strict'
+const AlbumImage = use("App/Models/AlbumImage");
+class AlbumController {
+  async index() {
+    const album_images = await AlbumImage.query().fetch();
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
-/**
- * Resourceful controller for interacting with albumimages
- */
-class AlbumImageController {
-  /**
-   * Show a list of all albumimages.
-   * GET albumimages
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
+    return album_images;
   }
 
-  /**
-   * Render a form to be used for creating a new albumimage.
-   * GET albumimages/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+  async store({ request, response }) {
+    const data = request.only(["album_id", "image_id"]);
+
+    const exists = await AlbumImage.query()
+      .where("album_id", data.album_id)
+      .where("image_id", data.image_id)
+      .fetch();
+
+    const album_length = await AlbumImage.query()
+      .where("album_id", data.album_id)
+      .fetch();
+
+    if (exists.toJSON()[0]) {
+      return response.status(409).send({
+        error: {
+          message: "This photo is already in this album.",
+        },
+      });
+    }
+
+    /**
+     * Validate max number of album image creation
+     */
+    if (album_length.toJSON().length >= 6) {
+      return response.status(403).send({
+        error: {
+          message:
+            "Maximum photo number reached! Try deleting another photo first.",
+        },
+      });
+    }
+
+    const album_image = await AlbumImage.create(data);
+
+    return album_image;
   }
 
-  /**
-   * Create/save a new albumimage.
-   * POST albumimages
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
+  async show({ params }) {
+    const album_image = await AlbumImage.findOrFail(params.id);
+
+    return album_image;
   }
 
-  /**
-   * Display a single albumimage.
-   * GET albumimages/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
+  // async update({ params, request }) {
+  //   const album_image = await AlbumImage.findOrFail(params.id);
 
-  /**
-   * Render a form to update an existing albumimage.
-   * GET albumimages/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
+  //   const data = request.only(["album_id", "image_id"]);
 
-  /**
-   * Update albumimage details.
-   * PUT or PATCH albumimages/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
+  //   AlbumImage.merge(data);
 
-  /**
-   * Delete a albumimage with id.
-   * DELETE albumimages/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+  //   await AlbumImage.save();
+
+  //   return album_image;
+  // }
+
+  async destroy({ params, response, auth }) {
+    /**
+     * WARNING: This deletes only the match between album and images,
+     * but not the images themselves (neither the album records).
+     */
+    // const album_image = await AlbumImage.query()
+    //   .where("album_id", params.album_id)
+    //   .where("image_id", params.image_id)
+    //   .fetch();
+
+    // if (
+    //   album_image.user_id !== auth.user.id &&
+    //   auth.user.user_group !== "admin"
+    // ) {
+    //   return response.status(401);
+    // }
+
+    const image_delete = await await AlbumImage.query()
+      .where("album_id", params.album_id)
+      .where("image_id", params.image_id)
+      .delete();
+
+    if (image_delete) {
+      return response.status(200).send({
+        message: "Photo deleted!",
+      });
+    } else {
+      return response.status(404).send({
+        error: {
+          message: "This photo isn't in this album anymore.",
+        },
+      });
+    }
   }
 }
 
-module.exports = AlbumImageController
+module.exports = AlbumController;

@@ -5,7 +5,7 @@ const Schema = use("Schema");
 
 class AlbumsSchema extends Schema {
   up() {
-    this.create("albums", table => {
+    this.create("albums", (table) => {
       table.increments();
       table
         .integer("user_id")
@@ -16,14 +16,14 @@ class AlbumsSchema extends Schema {
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
       table
-        .integer("job_category")
+        .integer("job_category_id")
         .unsigned()
         .notNullable()
         .references("id")
         .inTable("job_categories")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.string("cover_url", 254).notNullable();
+      table.string("cover_url");
       table.timestamps();
     });
   }
