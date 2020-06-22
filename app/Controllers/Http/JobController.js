@@ -126,8 +126,13 @@ class JobController {
   async destroy({ params, response, auth }) {
     const job = await Job.findOrFail(params.id);
 
-    if (job.owner_id !== auth.user.id) {
-      return response.status(401);
+    console.log(auth.user.user_group);
+
+    if (job.owner_id != auth.user.id && auth.user.user_group != "admin") {
+      return response.status(401).json({
+        code: 401,
+        message: "Unauthorized. Only owners can delete their own jobs.",
+      });
     }
 
     await job.delete();

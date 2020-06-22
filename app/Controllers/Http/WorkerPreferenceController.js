@@ -49,7 +49,16 @@ class MatchController {
   }
 
   async update({ params, request, response, auth }) {
-    const data = request.only(["album_id", "max_budget", "min_budget"]);
+    const data = request.only([
+      "album_id",
+      "min_budget_hour",
+      "max_budget_hour",
+      "min_budget_event",
+      "max_budget_event",
+      "min_range",
+      "max_range",
+      "transport_help",
+    ]);
 
     await WorkerPreference.query()
       .where("worker_id", "=", auth.user.id)

@@ -5,12 +5,9 @@ const Schema = use("Schema");
 
 class WorkerPreferenceSchema extends Schema {
   up() {
-    this.create("worker_preferences", table => {
+    this.create("worker_preferences", (table) => {
       table.increments();
-      table
-        .boolean("active")
-        .notNullable()
-        .defaultTo(true);
+      table.boolean("active").notNullable().defaultTo(true);
       table
         .integer("worker_id")
         .unsigned()
@@ -26,23 +23,14 @@ class WorkerPreferenceSchema extends Schema {
         .inTable("job_categories")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table
-        .integer("album_id")
-        .unsigned()
-        .notNullable()
-        .defaultTo(0);
-      // .references("id")
-      // .inTable("albums")
-      // .onUpdate("CASCADE")
-      // .onDelete("CASCADE");
-      table
-        .integer("max_budget")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("min_budget")
-        .notNullable()
-        .defaultTo(0);
+      table.integer("album_id").unsigned().notNullable().defaultTo(0);
+      table.integer("min_budget_hour").notNullable().defaultTo(0);
+      table.integer("max_budget_hour").notNullable().defaultTo(5000);
+      table.integer("min_budget_event").notNullable().defaultTo(0);
+      table.integer("max_budget_event").notNullable().defaultTo(5000);
+      table.integer("min_range").notNullable().defaultTo(0);
+      table.integer("max_range").notNullable().defaultTo(200);
+      table.boolean("transport_help").notNullable().defaultTo(0);
       table.timestamps();
     });
   }

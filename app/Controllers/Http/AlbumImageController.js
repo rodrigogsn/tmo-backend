@@ -1,4 +1,5 @@
 const AlbumImage = use("App/Models/AlbumImage");
+const Album = use("App/Models/Album");
 class AlbumController {
   async index() {
     const album_images = await AlbumImage.query().fetch();
@@ -38,9 +39,24 @@ class AlbumController {
       });
     }
 
-    const album_image = await AlbumImage.create(data);
+    await AlbumImage.create(data);
 
-    return album_image;
+    const albums = await Album.query()
+      .where("id", data.album_id)
+      .with("category", (builder) => {
+        builder.select(["id", "name"]);
+      })
+      .with("photos", (builder) => {
+        builder
+          .select(["album_id", "image_id"])
+          .orderBy("image_id", "desc")
+          .with("images", (builder) => {
+            builder.select(["id", "url"]);
+          });
+      })
+      .first();
+
+    return albums;
   }
 
   async show({ params }) {

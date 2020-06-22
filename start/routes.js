@@ -39,7 +39,9 @@ Route.group(() => {
 }).middleware("auth");
 
 Route.group(() => {
-  Route.resource("jobs", "JobController").apiOnly();
+  Route.resource("jobs", "JobController")
+    .apiOnly()
+    .validator(new Map([[["job.store"], ["Job"]]]));
 }).middleware("auth");
 
 Route.group(() => {

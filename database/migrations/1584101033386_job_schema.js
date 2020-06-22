@@ -22,7 +22,7 @@ class JobSchema extends Schema {
         .inTable("job_categories")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.integer("status").notNullable().unsigned().defaultTo(1); // Open (1), On Going (2), Done (3), Cancelled (4), Reported (5)
+      table.integer("status").notNullable().unsigned().defaultTo(1); // Open (1), On Going (2), Done (3), Cancelled (4)
       table.string("description").notNullable();
       table.string("start_date").notNullable();
       table.string("start_time").notNullable();
@@ -30,15 +30,15 @@ class JobSchema extends Schema {
       table.string("expire_time").notNullable();
       table.string("location").notNullable();
       table.integer("worker_number").notNullable().defaultTo(1);
-      table.string("worker_gender").notNullable();
-      table.integer("min_distance").notNullable().defaultTo(1);
+      table.string("worker_gender");
+      table.integer("min_distance").notNullable().defaultTo(0);
       table.integer("max_distance").notNullable().defaultTo(200);
       table.integer("min_age").notNullable().defaultTo(18);
       table.integer("max_age").notNullable().defaultTo(99);
       table.integer("min_rate").notNullable().defaultTo(1);
       table.integer("max_rate").notNullable().defaultTo(5);
       table.integer("price").notNullable();
-      table.integer("price_type").notNullable().defaultTo(1); // Per job (1), Per hour (2)
+      table.integer("price_type").notNullable().defaultTo(1); // Per hour (1), Per event (2)
       table.string("hours");
       table.boolean("transport_help").notNullable().defaultTo(0);
       table.integer("transport_value");
