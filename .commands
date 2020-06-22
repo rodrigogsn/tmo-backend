@@ -1,0 +1,2 @@
+heroku run ENV_SILENT=true node ace migration:refresh --force
+heroku run ENV_SILENT=true node ace seed --force
